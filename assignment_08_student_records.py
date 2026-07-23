@@ -90,3 +90,134 @@
 # YOUR CODE BELOW — remove the # symbols from the scaffold and fill it in
 # =============================================================================
 
+# =============================================================================
+# PROGRAMMING FUNDAMENTALS — Assignment 8
+# Topic: Lists of Dictionaries, Loops, and Functions
+# =============================================================================
+
+# List to store student records
+students = []
+
+
+# -----------------------------------------------------------------------------
+# Function to calculate average score
+# -----------------------------------------------------------------------------
+def calculate_average(scores):
+    total = 0
+
+    for score in scores:
+        total += score
+
+    return round(total / len(scores), 2)
+
+
+# -----------------------------------------------------------------------------
+# Add a Student
+# -----------------------------------------------------------------------------
+def add_student():
+    name = input("Student name: ")
+    student_id = input("Student ID: ")
+
+    # Check if ID already exists
+    for student in students:
+        if student["id"] == student_id:
+            print("Error: Student ID already exists.")
+            return
+
+    num_scores = int(input("How many scores? "))
+
+    if num_scores <= 0:
+        print("Error: Number of scores must be greater than 0.")
+        return
+
+    scores = []
+
+    for i in range(num_scores):
+        score = float(input(f"Enter score {i + 1}: "))
+        scores.append(score)
+
+    student = {
+        "name": name,
+        "id": student_id,
+        "scores": scores
+    }
+
+    students.append(student)
+
+    print(f'Student "{name}" added successfully.')
+
+
+# -----------------------------------------------------------------------------
+# Display All Students
+# -----------------------------------------------------------------------------
+def display_students():
+    if len(students) == 0:
+        print("No student records found.")
+        return
+
+    print("\n--------------------------------------------------------------------------")
+    print(f"{'Name':20}{'ID':15}{'Scores':25}{'Average'}")
+    print("--------------------------------------------------------------------------")
+
+    for student in students:
+        scores_text = ", ".join(str(score) for score in student["scores"])
+        average = calculate_average(student["scores"])
+
+        print(f"{student['name']:20}{student['id']:15}{scores_text:25}{average:.2f}")
+
+    print("--------------------------------------------------------------------------")
+
+
+# -----------------------------------------------------------------------------
+# Calculate Average for One Student
+# -----------------------------------------------------------------------------
+def student_average():
+    student_id = input("Enter student ID: ")
+
+    for student in students:
+        if student["id"] == student_id:
+            average = calculate_average(student["scores"])
+            print(f"{student['name']}'s average score: {average:.2f}")
+            return
+
+    print("Error: Student ID not found.")
+
+
+# -----------------------------------------------------------------------------
+# Display Menu
+# -----------------------------------------------------------------------------
+def display_menu():
+    print("\n================================")
+    print("   STUDENT RECORD SYSTEM MENU")
+    print("================================")
+    print("1. Add student")
+    print("2. Display all students")
+    print("3. Calculate average score")
+    print("4. Quit")
+
+
+def main():
+    while True:
+        display_menu()
+
+        choice = input("Enter your choice (1-4): ")
+
+        if choice == "1":
+            add_student()
+
+        elif choice == "2":
+            display_students()
+
+        elif choice == "3":
+            student_average()
+
+        elif choice == "4":
+            print("Goodbye!")
+            break
+
+        else:
+            print("Error: Invalid choice. Please enter a number from 1 to 4.")
+
+
+# Run the program
+main()
